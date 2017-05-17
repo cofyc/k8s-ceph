@@ -19,19 +19,36 @@ git push --tags
 
 ## how to run
 
+### create persistent volume to test
+
 ```
-kubectl apply -f fio-job.yml
+kubectl 
+```
+
+### run jobs
+
+```
+kubectl apply -f fio-readwrite.yml
 ```
 
 ## how to retrieve fio outputs
 
 ```
-kubectl logs -l app=k8s-fio
+kubectl logs -l app=k8s-fio --tail=10000
 ```
 
 ## how to clean
 
+### clean jobs
+
 ```
-kubectl delete -f fio-job.yml
-kubectl delete pv -l app=k8s-fio
+kubectl delete jobs -l app=k8s-fio
+```
+
+### clean persistent volumes
+
+```
+kubectl delete pvc -l app=k8s-fio
+kubectl delete pv $(kubectl get pv -ocustom-columns=NAME:{.metadata.name},CLAIM:{.spec.claimRef.name} --no-headers | awk '$2 == "fio-readwrite-pvc" { print $1 }')
+kubectl delete pv $(kubectl get pv -ocustom-columns=NAME:{.metadata.name},CLAIM:{.spec.claimRef.name} --no-headers | awk '$2 == "fio-readonly-pvc" { print $1 }')
 ```
