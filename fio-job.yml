@@ -27,25 +27,18 @@ spec:
     spec:
       containers:
       - name: fio
-        image: cofyc/k8s-fio:latest
+        image: cofyc/k8s-fio:v1
         args:
         - fio
         - /jobfiles/readwrite.fio
-        imagePullPolicy: Always
+        imagePullPolicy: IfNotPresent
         volumeMounts:
         - mountPath: /data
           name: data
           readOnly: false
-        - mountPath: /jobfiles
-          name: k8s-fio
-          subPath: jobfiles
       volumes:
       - name: data
         persistentVolumeClaim:
           claimName: fio-job-pvc
           readOnly: false
-      - name: k8s-fio
-        gitRepo:
-          repository: "https://github.com/cofyc/k8s-fio"
-          revision: "master"
       restartPolicy: Never
