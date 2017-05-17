@@ -13,7 +13,7 @@ spec:
     spec:
       containers:
       - name: fio
-        image: cofyc/k8s-fio:v1
+        image: cofyc/k8s-fio:v3
         args:
         - bash
         - -c
