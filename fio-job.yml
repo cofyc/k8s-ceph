@@ -1,0 +1,43 @@
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: fio-job-pvc
+  annotations:
+    volume.beta.kubernetes.io/storage-class: ceph
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 100Gi
+---
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: fio-job
+  labels:
+    app: fio
+spec:
+  parallelism: 1
+  template:
+    metadata:
+      labels:
+        app: fio
+    spec:
+      containers:
+      - name: fio
+        image: cofyc/k8s-ceph:latest
+        args:
+        - fio
+        - /jobfiles/readwrite.fio
+        imagePullPolicy: Always
+        volumeMounts:
+        - mountPath: /data
+          name: data
+          readOnly: false
+      volumes:
+      - name: data
+        persistentVolumeClaim:
+          claimName: fio-job-pvc
+          readOnly: false
+      restartPolicy: Never
