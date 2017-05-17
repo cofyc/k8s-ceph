@@ -3,27 +3,52 @@ bs=4k
 ioengine=sync
 iodepth=4
 size=1g
-direct=1
+direct=0
 runtime=60
 directory=/data
 filename=test.bin
 
-[seq-read]
+[read]
 rw=read
 stonewall
 
-[seq-write]
+[write]
 rw=write
 stonewall
 
-[rand-read]
+[randread]
 rw=randread
 stonewall
 
-[rand-write]
+[randwrite]
 rw=randwrite
 stonewall
 
 [readwrite]
+rw=readwrite
+stonewall
+
+[read-direct]
+direct=1
+rw=read
+stonewall
+
+[write-direct]
+direct=1
+rw=write
+stonewall
+
+[randread]
+direct=1
+rw=randread
+stonewall
+
+[randwrite]
+direct=1
+rw=randwrite
+stonewall
+
+[readwrite]
+direct=1
 rw=readwrite
 stonewall
