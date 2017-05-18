@@ -15,7 +15,13 @@ git push
 git push --tags
 ```
 
-4, Wait for `https://hub.docker.com/r/cofyc/k8s-fio/` to build `v<n>` image.
+4, Trigger docker hub to build image
+
+Note: replace `v<n>` to your tag.
+
+```
+curl -H "Content-Type: application/json" --data '{"source_type": "Tag", "source_name": "v<n>"}' -X POST https://registry.hub.docker.com/u/cofyc/k8s-fio/trigger/567fa03d-114d-4004-be4d-0fb13f1f77bc/
+```
 
 ## how to run
 
