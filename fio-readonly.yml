@@ -5,7 +5,7 @@ metadata:
   labels:
     app: k8s-fio
 spec:
-  parallelism: 1
+  parallelism: 3
   template:
     metadata:
       labels:
@@ -22,10 +22,10 @@ spec:
         volumeMounts:
         - mountPath: /data
           name: data
-          readOnly: false
+          readOnly: true
       volumes:
       - name: data
         persistentVolumeClaim:
           claimName: fio-readonly-pvc
-          readOnly: false
+          readOnly: true
       restartPolicy: Never
