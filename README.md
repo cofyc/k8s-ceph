@@ -22,7 +22,7 @@ git push --tags
 ### create persistent volume to test
 
 ```
-kubectl 
+kubectl apply -f pvc.yml
 ```
 
 ### run jobs
