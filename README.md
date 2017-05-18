@@ -1,6 +1,6 @@
 # k8s-ceph
 
-## how to add fio job files, etc
+## How to add job files
 
 1, Add/modify files under `jobfiles/` directory.
 
@@ -23,35 +23,35 @@ Note: replace `v<n>` to your tag.
 curl -H "Content-Type: application/json" --data '{"source_type": "Tag", "source_name": "v<n>"}' -X POST https://registry.hub.docker.com/u/cofyc/k8s-fio/trigger/567fa03d-114d-4004-be4d-0fb13f1f77bc/
 ```
 
-## how to run
+## How to run job
 
-### create persistent volume to test
+Create persistent volume first,
 
 ```
 kubectl apply -f pvc.yml
 ```
 
-### run jobs
+Run a job:
 
 ```
 kubectl apply -f fio-readwrite.yml
 ```
 
-## how to retrieve fio outputs
+## How to retrieve fio outputs
 
 ```
 kubectl logs -l app=k8s-fio --tail=10000
 ```
 
-## how to clean
+## How to clean
 
-### clean jobs
+### Clean k8s job resources
 
 ```
 kubectl delete jobs -l app=k8s-fio
 ```
 
-### clean persistent volumes
+### Clean k8s persistent volumes
 
 ```
 kubectl delete pvc -l app=k8s-fio
