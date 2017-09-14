@@ -1,0 +1,31 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: fio-readwrite
+  labels:
+    app: k8s-fio
+spec:
+  parallelism: 1
+  template:
+    metadata:
+      labels:
+        app: k8s-fio
+    spec:
+      containers:
+      - name: fio
+        image: cofyc/k8s-fio:v5
+        args:
+        - bash
+        - -c
+        - "fio /jobfiles/readwrite-*.fio"
+        imagePullPolicy: IfNotPresent
+        volumeMounts:
+        - mountPath: /data
+          name: data
+          readOnly: false
+      volumes:
+      - name: data
+        persistentVolumeClaim:
+          claimName: fio-readwrite-pvc
+          readOnly: false
+      restartPolicy: Never
